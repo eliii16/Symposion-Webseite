@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Symposion · Griechisches Restaurant in Bensberg</title>
+  <meta name="description" content="Griechisches Restaurant Symposion in Bensberg - Griechische Spezialitäten, mediterrane Küche, Terrasse und gemütliche Atmosphäre">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ============================================================
+       VARIABLEN & GRUNDLAGEN
+    ============================================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --paper: #FCF9F2;
+      --paper-soft: #F6F1E8;
+      --ink: #2F2E2A;
+      --ink-soft: #414038;
+      --wine: #A63A40;
+      --wine-light: #D97A7F;
+      --wine-soft: #B84A50;
+      --gold: #C29A6B;
+      --gold-light: #E2CDB5;
+      --olive: #848B6A;
+      --cream: #FEFCF8;
+      --muted: #9B9688;
+      --serif: 'Fraunces', serif;
+      --sans: 'Work Sans', sans-serif;
+      --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      --header-height: 72px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 400;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    body.nav-open { overflow: hidden; }
+
+    a { color: inherit; text-decoration: none; transition: color var(--transition); }
+    img { max-width: 100%; display: block; }
+
+    .eyebrow {
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--wine);
+      font-weight: 600;
+    }
+
+    h1, h2, h3 { font-family: var(--serif); font-weight: 500; letter-spacing: 0.01em; }
+
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 32px; }
+
+    /* GRIECHISCHER SCHLÜSSEL */
+    .key-divider {
+      height: 12px;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='12'><path d='M0 12 L0 0 L12 0 L12 8 L4 8 L4 4 L8 4' fill='none' stroke='%23C29A6B' stroke-width='1.3'/></svg>");
+      background-repeat: repeat-x;
+      background-size: 24px 12px;
+      opacity: 0.7;
+    }
+    .key-divider.wine {
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='12'><path d='M0 12 L0 0 L12 0 L12 8 L4 8 L4 4 L8 4' fill='none' stroke='%23A63A40' stroke-width='1.3'/></svg>");
+    }
+
+    /* HEADER */
+    header {
+      position: sticky; top: 0; z-index: 1000;
+      background: rgba(252, 249, 242, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(194, 154, 107, 0.2);
+    }
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 32px; max-width: 1280px; margin: 0 auto;
+      height: var(--header-height);
+    }
+    .brand { display: flex; align-items: center; gap: 14px; z-index: 1002; }
+    .brand img { height: 40px; width: auto; }
+    .brand-name { font-family: var(--serif); color: var(--ink); font-size: 1.35rem; letter-spacing: 0.04em; font-weight: 500; }
+
+    /* Hamburger */
+    .nav-toggle {
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      background: none; border: none; cursor: pointer; padding: 0; z-index: 1002;
+      width: 48px; height: 48px; gap: 6px; border-radius: 50%;
+      transition: background var(--transition), opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .nav-toggle:hover { background: rgba(194, 154, 107, 0.10); }
+    .nav-toggle span {
+      display: block; width: 28px; height: 2px; background: var(--ink);
+      border-radius: 2px; transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .nav-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .nav-toggle.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+    .nav-toggle.active { opacity: 0; pointer-events: none; visibility: hidden; }
+
+    /* MENÜ-PANEL */
+    nav {
+      position: fixed; top: 0; right: 0; bottom: 0; width: min(420px, 92%);
+      height: 100vh; height: 100dvh; background: var(--paper);
+      display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start;
+      padding: 0 48px 48px; gap: 0; transform: translateX(105%);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: -10px 0 50px rgba(0, 0, 0, 0.12); z-index: 1001; overflow-y: auto;
+    }
+    nav.open { transform: translateX(0); }
+
+    nav .nav-header-mobile {
+      position: sticky; top: 0; background: var(--paper); z-index: 10;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 0 20px; margin-bottom: 8px; border-bottom: 2px solid var(--gold-light);
+    }
+    nav .nav-brand-mobile { display: flex; align-items: center; gap: 12px; }
+    nav .nav-brand-mobile img { height: 36px; width: auto; }
+    nav .nav-brand-mobile span { font-family: var(--serif); font-size: 1.25rem; color: var(--ink); letter-spacing: 0.03em; }
+    nav .nav-close {
+      display: flex; align-items: center; justify-content: center;
+      width: 42px; height: 42px; background: transparent; border: none;
+      cursor: pointer; border-radius: 50%; transition: background var(--transition);
+      color: var(--ink); font-size: 1.6rem; line-height: 1;
+    }
+    nav .nav-close:hover { background: rgba(194, 154, 107, 0.15); color: var(--wine); }
+    
+    nav a {
+      font-family: var(--serif); font-size: 1.1rem; letter-spacing: 0.03em;
+      color: var(--ink); font-weight: 500; padding: 16px 0;
+      border-bottom: 1px solid var(--gold-light); display: flex;
+      align-items: center; justify-content: space-between;
+      transition: color var(--transition), padding var(--transition); position: relative;
+    }
+    nav a::after {
+      content: '→'; font-family: var(--sans); font-size: 1rem; color: var(--gold);
+      opacity: 0; transform: translateX(-10px); transition: all var(--transition);
+    }
+    nav a:hover, nav a.active { color: var(--wine); padding-left: 10px; }
+    nav a:hover::after, nav a.active::after { opacity: 1; transform: translateX(0); }
+    nav a.active { font-weight: 600; }
+    nav a.active::before {
+      content: ''; position: absolute; left: -16px; top: 50%;
+      transform: translateY(-50%); width: 6px; height: 6px;
+      background: var(--wine); border-radius: 50%;
+    }
+
+    nav .nav-cta {
+      background: var(--wine); color: white !important; text-align: center;
+      justify-content: center; border-radius: 40px; padding: 16px 28px;
+      margin: 28px 0 0; border-bottom: none; font-size: 1rem;
+    }
+    nav .nav-cta::after { display: none !important; }
+    nav .nav-cta:hover { background: var(--wine-soft); padding-left: 28px; transform: translateY(-2px); box-shadow: 0 8px 25px rgba(166, 58, 64, 0.25); }
+
+    .nav-reservation {
+      display: flex; align-items: center; gap: 12px; margin-top: 20px;
+      padding: 14px 18px; background: rgba(166, 58, 64, 0.06);
+      border-radius: 12px; font-size: 0.88rem; color: var(--ink-soft); line-height: 1.5;
+    }
+    .nav-reservation span:first-child { font-size: 1.3rem; flex-shrink: 0; }
+    .nav-reservation a {
+      font-family: var(--sans); font-size: 0.95rem; color: var(--wine);
+      font-weight: 600; padding: 0; border-bottom: none; display: inline;
+    }
+    .nav-reservation a::after { display: none; }
+    .nav-reservation a:hover { padding-left: 0; color: var(--wine-soft); }
+
+    .nav-footer {
+      margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--gold-light);
+      font-size: 0.85rem; color: var(--olive); line-height: 1.7;
+    }
+    .nav-footer strong { display: block; color: var(--ink); font-family: var(--serif); font-size: 1.05rem; margin-bottom: 8px; }
+    .nav-footer a {
+      font-family: var(--sans); font-size: 0.9rem; color: var(--wine);
+      padding: 0; border-bottom: none; display: inline; font-weight: 600;
+    }
+    .nav-footer a::after { display: none; }
+    .nav-footer a:hover { padding-left: 0; color: var(--wine-soft); }
+
+    .nav-overlay {
+      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.45);
+      opacity: 0; visibility: hidden; transition: opacity 0.35s ease, visibility 0.35s ease;
+      z-index: 999; backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
+    }
+    .nav-overlay.active { opacity: 1; visibility: visible; }
+
+    /* ============================================================
+       STARTSEITE (HERO) - MINIMALISTISCH
+    ============================================================ */
+    .hero {
+      position: relative;
+      min-height: 90vh;
+      min-height: 90dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 100px;
+      background: url('Bilder/Geschäft/Innen4.JPG') center/cover no-repeat;
+      filter: brightness(1.1);
+      overflow: hidden;
+    }
+         .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(30, 25, 20, 0.1) 0%, rgba(30, 25, 20, 0.6) 100%);
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+     .hero-logo-text {
+      font-family: var(--serif);
+      font-size: 3.5rem;
+      letter-spacing: 0.15em;
+      color: white;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      text-shadow: 0 4px 25px rgba(0, 0, 0, 0.9); 
+    }
+    .hero-logo-img {
+      max-height: 100px;
+      margin: 0 auto 20px;
+      display: none;
+    }
+        .hero-subtitle {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.3rem;
+      color: #e0e0e0;
+      margin-bottom: 30px;
+      text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9);   
+     }
+
+    .hero-headline {
+      font-size: 1.6rem;
+      font-family: var(--serif);
+      color: white;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9);
+        }
+
+
+    .hero-contact-bottom {
+      position: absolute;
+      bottom: 30px;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      color: white;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      text-align: center;
+      font-weight: 300;
+    }
+    .hero-contact-bottom a { color: white; 
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);    }
+
+    /* ============================================================
+       RESTLICHE SEKTIONEN
+    ============================================================ */
+    section { padding: 90px 0; }
+    .section-head { text-align: center; margin-bottom: 56px; }
+    .section-head h2 { font-size: 2.1rem; margin-top: 10px; }
+    .section-head p { color: var(--olive); font-family: var(--serif); font-style: italic; margin-top: 10px; }
+
+    /* About */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    .about-text p { margin-bottom: 16px; color: var(--ink-soft); }
+    .about-text .lead {
+      font-family: var(--serif); font-size: 1.3rem; font-style: italic;
+      color: var(--ink); margin-bottom: 20px; line-height: 1.5;
+      border-left: 3px solid var(--gold); padding-left: 20px;
+    }
+    .facts { 
+      display: flex; 
+      gap: 50px; 
+      margin-top: 35px; 
+      flex-wrap: wrap; 
+      align-items: center;
+    }
+    .fact-num { font-family: var(--serif); font-size: 1.7rem; color: var(--wine); }
+    .fact-label { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--olive); margin-top: 2px; }
+
+    /* Google Bewertungen (in About) */
+    .google-rating-link-light {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: transform var(--transition);
+    }
+    .google-rating-link-light:hover {
+      transform: translateY(-2px);
+    }
+    .google-rating-link-light .fact-num {
+      color: var(--wine);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .google-rating-link-light svg {
+      width: 22px;
+      height: 22px;
+      margin-bottom: 2px;
+    }
+
+    /* Bilder */
+    .image-wrapper { width: 100%; height: 100%; border-radius: 12px; overflow: hidden; }
+    .image-wrapper img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform var(--transition); }
+    .image-wrapper img:hover { transform: scale(1.03); }
+    .placeholder-img {
+      aspect-ratio: 4/5; background: #F4EFE6; border: 1px solid var(--gold-light);
+      border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      transition: box-shadow var(--transition);
+    }
+    .placeholder-img:hover { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06); }
+
+    /* Menu */
+    .menu-section { background: var(--paper-soft); color: var(--ink); }
+    .menu-panel {
+      display: grid; grid-template-columns: 1fr 1.1fr; gap: 40px; align-items: stretch;
+      background: white; border: 1px solid rgba(194, 154, 107, 0.25);
+      border-radius: 16px; padding: 44px; box-shadow: 0 8px 28px rgba(0, 0, 0, 0.02);
+    }
+    .menu-tabs { display: flex; gap: 10px; margin-bottom: 26px; flex-wrap: wrap; }
+    .menu-tab {
+      background: transparent; border: 1px solid rgba(194, 154, 107, 0.35);
+      color: var(--ink-soft); padding: 10px 22px; font-family: var(--sans);
+      font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase;
+      font-weight: 600; cursor: pointer; border-radius: 40px; transition: all var(--transition);
+    }
+    .menu-tab:hover { border-color: var(--wine); color: var(--wine); }
+    .menu-tab.active { background: var(--wine); border-color: var(--wine); color: white; }
+    .menu-copy h3 { color: var(--ink); font-size: 1.5rem; margin-bottom: 14px; }
+    .menu-copy p { color: var(--ink-soft); margin-bottom: 26px; font-size: 0.95rem; }
+    .menu-note {
+      display: none; color: var(--wine) !important; font-family: var(--serif);
+      font-style: italic; font-size: 0.9rem !important; margin-top: -14px !important;
+      margin-bottom: 22px !important; background: rgba(166, 58, 64, 0.05);
+      padding: 8px 16px; border-radius: 8px;
+    }
+    .menu-note.show { display: block; }
+    .menu-viewer {
+      background: var(--paper); border: 1px solid rgba(194, 154, 107, 0.25);
+      border-radius: 12px; min-height: 420px; display: flex;
+      flex-direction: column; overflow: hidden;
+    }
+    .menu-viewer iframe { flex: 1; width: 100%; min-height: 420px; border: none; }
+    .menu-viewer .fallback { padding: 16px; text-align: center; font-size: 0.8rem; color: var(--olive); background: var(--paper-soft); }
+
+    /* Öffnungszeiten & Kontakt */
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: stretch; }
+    .hours-card {
+      background: white; border-radius: 16px; padding: 40px 36px;
+      border: 1px solid rgba(194, 154, 107, 0.20); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+      transition: box-shadow var(--transition); display: flex;
+      flex-direction: column; justify-content: center; height: 100%;
+    }
+    .hours-card:hover { box-shadow: 0 8px 28px rgba(0, 0, 0, 0.04); }
+    .hours-table { width: 100%; border-collapse: collapse; }
+    .hours-table td { padding: 12px 0; border-bottom: 1px solid var(--gold-light); font-size: 0.95rem; }
+    .hours-table td:first-child { font-weight: 600; color: var(--ink); width: 40%; }
+    .hours-table td:last-child { color: var(--ink-soft); text-align: right; }
+    .hours-table tr.closed td:last-child { color: var(--wine); font-style: italic; }
+    .hours-table tr:last-child td { border-bottom: none; }
+
+    .contact-card-modern {
+      background: white; border-radius: 16px; padding: 40px 36px;
+      border: 1px solid rgba(194, 154, 107, 0.20); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+      transition: box-shadow var(--transition); display: flex;
+      flex-direction: column; justify-content: space-between; height: 100%;
+    }
+    .contact-card-modern:hover { box-shadow: 0 8px 28px rgba(0, 0, 0, 0.04); }
+    .contact-card-modern h3 { font-family: var(--serif); font-size: 1.3rem; color: var(--ink); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid var(--gold-light); }
+    .contact-item { margin-bottom: 14px; }
+    .contact-item:last-of-type { margin-bottom: 20px; }
+    .contact-label { display: block; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--olive); font-weight: 600; margin-bottom: 2px; }
+    .contact-value { font-size: 0.95rem; color: var(--ink-soft); }
+    .contact-value a { color: var(--wine); font-weight: 600; }
+    .contact-value a:hover { color: var(--wine-soft); }
+    .contact-card-modern .btn { align-self: flex-start; margin-top: 4px; }
+
+    .reservation-item {
+      background: rgba(166, 58, 64, 0.04); padding: 12px 16px;
+      margin: 0 -16px 14px; border-radius: 8px; border-left: 3px solid var(--wine);
+    }
+    .reservation-item .contact-value strong { color: var(--wine); font-size: 0.95rem; }
+
+    .social-icons { display: flex; gap: 16px; margin-top: 4px; }
+    .social-icons a { transition: transform 0.3s ease, opacity 0.3s ease; display: inline-block; line-height: 1; }
+    .social-icons a:hover { transform: scale(1.15); opacity: 0.8; }
+    .social-icons svg { display: block; }
+
+    /* Buttons */
+    .btn {
+      display: inline-block; padding: 12px 28px; font-size: 0.78rem;
+      letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600;
+      border-radius: 40px; transition: all var(--transition); cursor: pointer;
+      border: 1px solid transparent; position: relative; overflow: hidden;
+    }
+    .btn-primary { background: var(--wine); color: white; box-shadow: 0 4px 20px rgba(166, 58, 64, 0.30); }
+    .btn-primary:hover { background: var(--wine-soft); transform: translateY(-3px); box-shadow: 0 8px 30px rgba(166, 58, 64, 0.35); }
+    .btn-outline {
+      border-color: var(--gold); color: var(--ink); background: rgba(255, 255, 255, 0.50);
+      backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    }
+    .btn-outline:hover { background: rgba(255, 255, 255, 0.80); border-color: var(--wine); transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06); }
+    .btn-olive { background: var(--olive); color: white; }
+    .btn-olive:hover { background: #6f7658; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(132, 139, 106, 0.30); }
+
+    /* Galerie */
+    .gallery-panorama {
+      position: relative; width: 100%; aspect-ratio: 21/9; border-radius: 20px;
+      overflow: hidden; margin-bottom: 24px; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+      border: 1px solid var(--gold-light); cursor: pointer; transition: box-shadow var(--transition);
+    }
+    .gallery-panorama:hover { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12); }
+    .gallery-panorama img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+    .gallery-panorama:hover img { transform: scale(1.05); }
+    .gallery-panorama .gallery-overlay {
+      position: absolute; inset: 0; background: linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.15) 40%, rgba(0, 0, 0, 0) 70%);
+      display: flex; align-items: flex-end; padding: 40px; opacity: 0; transition: opacity 0.4s ease;
+    }
+    .gallery-panorama:hover .gallery-overlay { opacity: 1; }
+    .gallery-panorama .gallery-caption { color: white; font-family: var(--serif); font-size: 1.8rem; font-weight: 500; letter-spacing: 0.02em; text-shadow: 0 2px 15px rgba(0, 0, 0, 0.4); transform: translateY(10px); transition: transform 0.4s ease; }
+    .gallery-panorama:hover .gallery-caption { transform: translateY(0); }
+
+    .gallery-duo { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .gallery-duo .gallery-item {
+      position: relative; aspect-ratio: 4/3; border-radius: 16px; overflow: hidden;
+      background: #F6F1E8; border: 1px solid var(--gold-light); box-shadow: 0 8px 28px rgba(0, 0, 0, 0.06);
+      cursor: pointer; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .gallery-duo .gallery-item:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12); }
+    .gallery-duo .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+    .gallery-duo .gallery-item:hover img { transform: scale(1.06); }
+    .gallery-duo .gallery-item .gallery-overlay {
+      position: absolute; inset: 0; background: linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.15) 40%, rgba(0, 0, 0, 0) 70%);
+      display: flex; align-items: flex-end; padding: 28px; opacity: 0; transition: opacity 0.4s ease;
+    }
+    .gallery-duo .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-duo .gallery-item .gallery-caption { color: white; font-family: var(--serif); font-size: 1.3rem; font-weight: 500; letter-spacing: 0.02em; text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4); transform: translateY(10px); transition: transform 0.4s ease; }
+    .gallery-duo .gallery-item:hover .gallery-caption { transform: translateY(0); }
+
+    /* Social Media */
+    .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 780px; margin: 0 auto; }
+    .social-card {
+      display: flex; align-items: center; gap: 18px; padding: 24px 28px;
+      background: white; border-radius: 16px; border: 1px solid rgba(194, 154, 107, 0.20);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02); transition: all var(--transition);
+      text-decoration: none; color: var(--ink); position: relative; overflow: hidden;
+    }
+    .social-card::before { content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity var(--transition); border-radius: 16px; }
+    .social-card.instagram::before { background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+    .social-card.facebook::before { background: linear-gradient(135deg, #1877f2 0%, #0d65d9 100%); }
+    .social-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08); }
+    .social-card:hover::before { opacity: 0.06; }
+    .social-card .social-icon { flex-shrink: 0; width: 52px; text-align: center; line-height: 1; color: var(--ink); }
+    .social-card.instagram .social-icon { color: #E4405F; }
+    .social-card.facebook .social-icon { color: #1877f2; }
+    .social-card .social-info { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+    .social-card .social-platform { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--olive); font-weight: 600; }
+    .social-card .social-handle { font-family: var(--serif); font-size: 1.2rem; font-weight: 500; color: var(--ink); }
+    .social-card .social-desc { font-size: 0.85rem; color: var(--ink-soft); }
+    .social-card .social-arrow { font-size: 1.4rem; color: var(--gold); transition: transform var(--transition); flex-shrink: 0; }
+    .social-card:hover .social-arrow { transform: translateX(6px); }
+
+    /* Footer */
+    footer { background: var(--paper-soft); color: var(--ink-soft); padding: 56px 0 30px; }
+    .footer-inner { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 30px; padding-bottom: 34px; }
+    .footer-brand { display: flex; align-items: center; gap: 12px; }
+    .footer-brand img { height: 34px; }
+    .footer-brand span { font-family: var(--serif); color: var(--ink); font-size: 1.05rem; }
+    .footer-cols { display: flex; gap: 60px; flex-wrap: wrap; }
+    .footer-cols h4 { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--wine); margin-bottom: 12px; font-weight: 600; }
+    .footer-cols p, .footer-cols a { font-size: 0.88rem; display: block; margin-bottom: 6px; color: var(--ink-soft); }
+    .footer-cols a:hover { color: var(--wine); }
+    .footer-social-icons { display: flex; gap: 14px; margin-top: 8px; }
+    .footer-social-icons a { transition: transform 0.3s ease, opacity 0.3s ease; display: inline-block; line-height: 1; }
+    .footer-social-icons a:hover { transform: scale(1.15); opacity: 0.8; }
+    .footer-social-icons svg { display: block; }
+    .footer-social-label { font-size: 0.75rem; margin-top: 6px; color: var(--muted); }
+    .footer-bottom { border-top: 1px solid rgba(194, 154, 107, 0.25); padding-top: 22px; font-size: 0.75rem; color: var(--muted); text-align: center; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .footer-bottom a { color: var(--muted); text-decoration: underline; }
+    .footer-bottom a:hover { color: var(--wine); }
+    .footer-legal-links { display: flex; gap: 24px; }
+
+    /* Reveal Animation */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal-left.in { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal-right.in { opacity: 1; transform: translateX(0); }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .reveal-left, .reveal-right { opacity: 1; transform: none; transition: none; }
+      .hero::before { background: rgba(30, 25, 20, 0.75); }
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .header-inner { padding: 12px 24px; }
+      .wrap { padding: 0 24px; }
+      section { padding: 70px 0; }
+      .section-head { margin-bottom: 40px; }
+      .section-head h2 { font-size: 1.8rem; }
+      .about-grid, .info-grid { grid-template-columns: 1fr; gap: 40px; }
+      .menu-panel { grid-template-columns: 1fr; padding: 32px 24px; }
+      .footer-cols { gap: 40px; }
+    }
+
+    @media (max-width: 700px) {
+      .social-grid { grid-template-columns: 1fr; gap: 20px; }
+      .social-card { padding: 20px; }
+      .social-card .social-icon { width: 44px; }
+      .social-card .social-icon svg { width: 30px; height: 30px; }
+      .social-card .social-handle { font-size: 1.05rem; }
+      .hours-card, .contact-card-modern { padding: 28px 22px; }
+      nav { padding: 0 36px 40px; }
+      nav a { font-size: 1.05rem; padding: 14px 0; }
+
+      .gallery-panorama { aspect-ratio: 16/10; border-radius: 16px; margin-bottom: 18px; }
+      .gallery-panorama .gallery-overlay { opacity: 1; padding: 24px; background: linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0) 60%); }
+      .gallery-panorama .gallery-caption { font-size: 1.2rem; transform: translateY(0); }
+      .gallery-duo { grid-template-columns: 1fr; gap: 18px; }
+      .gallery-duo .gallery-item { aspect-ratio: 16/10; }
+      .gallery-duo .gallery-item .gallery-overlay { opacity: 1; padding: 20px; background: linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0) 60%); }
+      .gallery-duo .gallery-item .gallery-caption { font-size: 1.05rem; transform: translateY(0); }
+    }
+
+    @media (max-width: 520px) {
+      :root { --header-height: 64px; }
+      .header-inner { padding: 10px 16px; }
+      .brand img { height: 34px; }
+      .brand-name { font-size: 1.1rem; }
+      .wrap { padding: 0 16px; }
+      section { padding: 56px 0; }
+      .section-head { margin-bottom: 32px; }
+      .section-head h2 { font-size: 1.5rem; }
+      .section-head p { font-size: 0.9rem; }
+      
+      .hero { padding: 80px 16px 100px; min-height: 80vh; }
+      .hero-logo-text { font-size: 2.5rem; }
+      .hero-subtitle { font-size: 1.05rem; margin-bottom: 20px; }
+      .hero-headline { font-size: 1.3rem; }
+      
+      .facts { gap: 20px; justify-content: space-between; align-items: flex-start; flex-direction: column; }
+      .google-rating-link-light { margin-bottom: 10px; }
+      .fact-num { font-size: 1.5rem; }
+      .fact-label { font-size: 0.62rem; }
+      .about-text .lead { font-size: 1.1rem; padding-left: 14px; }
+      .menu-panel { padding: 20px 16px; gap: 24px; }
+      .menu-tabs { gap: 8px; }
+      .menu-tab { padding: 8px 16px; font-size: 0.7rem; flex: 1; text-align: center; }
+      .menu-viewer, .menu-viewer iframe { min-height: 360px; }
+      .hours-table td { font-size: 0.88rem; padding: 10px 0; }
+      .hours-card, .contact-card-modern { padding: 24px 18px; }
+      .contact-card-modern h3 { font-size: 1.15rem; }
+      .footer-cols { gap: 30px; flex-direction: column; }
+      .footer-cols h4 { font-size: 0.68rem; }
+      .btn { padding: 12px 22px; font-size: 0.72rem; }
+
+      nav { width: 100%; max-width: 100%; padding: 0 28px 32px; }
+      nav .nav-header-mobile { padding: 20px 0 16px; }
+      nav a { font-size: 1.05rem; padding: 15px 0; }
+      nav .nav-cta { padding: 15px 24px; font-size: 0.95rem; }
+      .nav-toggle { width: 42px; height: 42px; }
+      .nav-toggle span { width: 24px; }
+    }
+
+    @media (max-width: 400px) {
+      .gallery-panorama .gallery-caption { font-size: 1rem; }
+      .gallery-duo .gallery-item .gallery-caption { font-size: 0.95rem; }
+    }
+
+    @media (max-width: 380px) {
+      .hero-logo-text { font-size: 2rem; }
+      .contact-card-modern, .hours-card { padding: 20px 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <img src="assets/logo.png" alt="Symposion Logo" onerror="this.style.display='none'">
+        <span class="brand-name">Symposion</span>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Menü öffnen" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav id="mainNav">
+        <div class="nav-header-mobile">
+          <div class="nav-brand-mobile">
+            <img src="assets/logo.png" alt="Symposion Logo" onerror="this.style.display='none'">
+            <span>Symposion</span>
+          </div>
+          <button class="nav-close" id="navClose" aria-label="Menü schließen">×</button>
+        </div>
+
+        <a href="index.html" class="active">Start</a>
+        <a href="#ueber-uns">Über uns</a>
+        <a href="#speisekarte">Speisekarte</a>
+        <a href="#oeffnungszeiten">Öffnungszeiten</a>
+        <a href="#galerie">Galerie</a>
+        <a href="#social">Social Media</a>
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+        <a href="#kontakt" class="nav-cta">Kontakt</a>
+
+        <div class="nav-reservation">
+          <span>📅</span>
+          <span>Reservierung online über Sofia<br><a href="#">Jetzt reservieren</a></span>
+        </div>
+
+        <div class="nav-footer">
+          <strong>Symposion Bensberg</strong>
+          Schloßstraße 27<br>
+          51429 Bergisch Gladbach<br>
+          <a href="tel:+4922045773">02204 57073</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <!-- STARTSEITE (HERO) - NUR DAS WICHTIGSTE -->
+  <section class="hero" id="top">
+    <div class="hero-content">
+      <!-- Falls das Bild-Logo nicht da ist, greift der Text -->
+      <img src="assets/logo.png" class="hero-logo-img" alt="Symposion" onload="this.style.display='block'; document.querySelector('.hero-logo-text').style.display='none';" onerror="this.style.display='none';">
+      <div class="hero-logo-text">SYMPOSION</div>
+      
+      <div class="hero-subtitle">Griechisches Restaurant · Bensberg</div>
+      
+      <div class="hero-headline">SYMPOSION</div>
+    </div>
+
+    <!-- Kontakt ganz unten wie auf dem Screenshot -->
+    <div class="hero-contact-bottom">
+      <p>Tel: <a href="tel:+4922045773">02204 57073</a></p>
+      <p>Schloßstraße 27 · 51429 Bergisch Gladbach</p>
+    </div>
+  </section>
+  
+  <div class="key-divider"></div>
+
+  <!-- ÜBER UNS (Mit Google Bewertungen) -->
+  <section id="ueber-uns">
+    <div class="wrap">
+      <div class="about-grid">
+        <div class="placeholder-img reveal-left">
+          <div class="image-wrapper">
+            <img src="Bilder/ODY.JPG" alt="Fleischgerichte im Symposion">
+          </div>
+        </div>
+        <div class="about-text reveal-right">
+          <div class="eyebrow">Über uns</div>
+          <p class="lead">Ein Symposion war im antiken Griechenland ein Ort für Wein, Gespräch und Gastfreundschaft — genau dieses Gefühl möchten wir in Bensberg weitertragen.</p>
+          <p>In unseren gemütlichen Sitznischen mit roten Polstern und an unseren langen Holztischen servieren wir griechische Spezialitäten und mediterrane Gerichte – von zartem Fleisch bis zu vegetarischen Köstlichkeiten.</p>
+          <p>Ob mit Familie, Freunden oder für ein spontanes Abendessen – bei uns ist immer ein Platz frei. Bei gutem Wetter laden wir Sie auf unsere Außenterrasse ein, für einen Abend unter freiem Himmel.</p>
+          
+          <div class="facts">
+            <!-- Google Bewertungen hier eingefügt -->
+            <div>
+              <a href="https://www.google.com/maps/search/?api=1&query=Symposion+Bensberg" target="_blank" rel="noopener" class="google-rating-link-light">
+                <div class="fact-num">
+                  4,7★
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                  </svg>
+                </div>
+                <div class="fact-label">1.361 Rezensionen</div>
+              </a>
+            </div>
+            
+            <div>
+              <div class="fact-num">20–30€</div>
+              <div class="fact-label">pro Person</div>
+            </div>
+            <div>
+              <div class="fact-num">6</div>
+              <div class="fact-label">Tage geöffnet</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPEISEKARTE -->
+  <section id="speisekarte" class="menu-section">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow">Speisekarte</div>
+        <h2>Unser Menü</h2>
+        <p>Von Vorspeisen bis Nachspeisen</p>
+      </div>
+      <div class="menu-panel reveal">
+        <div class="menu-copy">
+          <div class="menu-tabs">
+            <button class="menu-tab active" data-target="speisekarte" id="tabSpeise">Speisekarte</button>
+            <button class="menu-tab" data-target="mittagskarte" id="tabMittag">Mittagskarte</button>
+          </div>
+          <h3 id="menuTitle">Unsere Karte</h3>
+          <p id="menuDesc">Blättern Sie direkt hier durch unsere Speisekarte, oder laden Sie sie sich als PDF herunter, um sie in Ruhe zu Hause zu studieren.</p>
+          <p class="menu-note" id="mittagNote">Die Mittagskarte gilt 12:00–15:00 Uhr, nicht an Samstagen, Sonntagen und Feiertagen.</p>
+          <a href="assets/speisekarte.pdf" target="_blank" class="btn btn-olive" id="menuDownload">PDF herunterladen</a>
+        </div>
+        <div class="menu-viewer">
+          <iframe src="assets/speisekarte.pdf" title="Speisekarte Symposion" id="menuFrame"></iframe>
+          <div class="fallback">Ihr Browser zeigt keine PDF-Vorschau? <a href="assets/speisekarte.pdf" target="_blank" id="menuFallbackLink" style="color:var(--wine); text-decoration:underline;">Karte hier öffnen</a>.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ÖFFNUNGSZEITEN & KONTAKT -->
+  <section id="oeffnungszeiten">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow">Öffnungszeiten</div>
+        <h2>Wann Sie uns finden</h2>
+      </div>
+      <div class="info-grid">
+        <div class="hours-card reveal-left">
+          <table class="hours-table">
+            <tr class="closed"><td>Dienstag</td><td>Geschlossen</td></tr>
+            <tr><td>Mittwoch</td><td>12:00–21:30</td></tr>
+            <tr><td>Donnerstag</td><td>12:00–21:30</td></tr>
+            <tr><td>Freitag</td><td>12:00–21:30</td></tr>
+            <tr><td>Samstag</td><td>12:00–21:30</td></tr>
+            <tr><td>Sonntag</td><td>12:00–21:00</td></tr>
+            <tr><td>Montag</td><td>12:00–21:30</td></tr>
+          </table>
+        </div>
+
+        <div id="kontakt" class="contact-card-modern reveal-right">
+          <h3>Kontakt &amp; Anfahrt</h3>
+
+          <div class="contact-item">
+            <span class="contact-label">Adresse</span>
+            <p class="contact-value">Schloßstraße 27, 51429 Bergisch Gladbach</p>
+          </div>
+
+          <div class="contact-item reservation-item">
+            <span class="contact-label">Reservierungen</span>
+            <p class="contact-value">
+              <strong>Online über Sofia</strong>
+            </p>
+          </div>
+
+          <div class="contact-item">
+            <span class="contact-label">Serviceoptionen</span>
+            <p class="contact-value">Sitzplätze im Freien · Bar · Rollstuhlgerecht</p>
+          </div>
+
+          <div class="contact-item">
+            <span class="contact-label">Social Media</span>
+            <div class="social-icons">
+              <a href="https://www.instagram.com/restaurantsymposion" target="_blank" rel="noopener" aria-label="Instagram" style="color:#E4405F;">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                </svg>
+              </a>
+              <a href="https://www.facebook.com/SymposionBensberg" target="_blank" rel="noopener" aria-label="Facebook" style="color:#1877f2;">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <a href="https://www.google.com/maps/search/?api=1&query=Schlo%C3%9Fstra%C3%9Fe+27+51429+Bergisch+Gladbach" target="_blank" rel="noopener" class="btn btn-primary">Route planen</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERIE -->
+  <section id="galerie" style="background:var(--paper-soft);">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow">Impressionen</div>
+        <h2>Ein Blick ins Symposion</h2>
+        <p>Momente, Gerichte und Atmosphäre</p>
+      </div>
+
+      <div class="gallery-panorama reveal">
+        <img src="Bilder/Geschäft/Draußen1.JPG" alt="Innenraum im Symposion">
+        <div class="gallery-overlay">
+          <span class="gallery-caption">Unsere Terasse</span>
+        </div>
+      </div>
+
+      <div class="gallery-duo">
+        <div class="gallery-item reveal">
+          <img src="Bilder/Essen/Kalamari2.JPG" alt="Kalamari - griechische Spezialität">
+          <div class="gallery-overlay">
+            <span class="gallery-caption">Frischer Kalamari</span>
+          </div>
+        </div>
+        <div class="gallery-item reveal" style="transition-delay:0.1s;">
+          <img src="Bilder/Essen/Fleisch.JPG" alt="Terrasse im Symposion">
+          <div class="gallery-overlay">
+            <span class="gallery-caption">Vom Grill direkt auf den Teller</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIAL MEDIA -->
+  <section id="social" style="padding: 70px 0; background: var(--paper);">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow">Social Media</div>
+        <h2>Folgen Sie uns</h2>
+        <p>Bleiben Sie verbunden – entdecken Sie unsere Welt auf Instagram &amp; Facebook</p>
+      </div>
+      <div class="social-grid reveal">
+        <a href="https://www.instagram.com/restaurantsymposion" target="_blank" rel="noopener" class="social-card instagram">
+          <div class="social-icon">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+            </svg>
+          </div>
+          <div class="social-info">
+            <span class="social-platform">Instagram</span>
+            <span class="social-handle">@restaurantsymposion</span>
+            <span class="social-desc">Tägliche Einblicke hinter die Kulissen</span>
+          </div>
+          <span class="social-arrow">→</span>
+        </a>
+        <a href="https://www.facebook.com/SymposionBensberg" target="_blank" rel="noopener" class="social-card facebook">
+          <div class="social-icon">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+          </div>
+          <div class="social-info">
+            <span class="social-platform">Facebook</span>
+            <span class="social-handle">Symposion Bensberg</span>
+            <span class="social-desc">Aktuelle News &amp; Veranstaltungen</span>
+          </div>
+          <span class="social-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="key-divider wine" style="margin-bottom:40px;"></div>
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="assets/logo.png" alt="Symposion Logo" onerror="this.style.display='none'">
+          <span>Symposion</span>
+        </div>
+        <div class="footer-cols">
+          <div>
+            <h4>Adresse</h4>
+            <p>Schloßstraße 27</p>
+            <p>51429 Bergisch Gladbach</p>
+          </div>
+          <div>
+            <h4>Kontakt</h4>
+            <a href="tel:+4922045773">02204 57073</a>
+            <p style="font-size:0.75rem; margin-top:8px; color:var(--olive);">
+              Reservierung online über Sofia
+            </p>
+          </div>
+          <div>
+            <h4>Navigation</h4>
+            <a href="index.html">Start</a>
+            <a href="#ueber-uns">Über uns</a>
+            <a href="#speisekarte">Speisekarte</a>
+            <a href="#oeffnungszeiten">Öffnungszeiten</a>
+            <a href="#galerie">Galerie</a>
+            <a href="#social">Social Media</a>
+          </div>
+          <div>
+            <h4>Folgen Sie uns</h4>
+            <div class="footer-social-icons">
+              <a href="https://www.instagram.com/restaurantsymposion" target="_blank" rel="noopener" aria-label="Instagram" style="color:#E4405F;">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                </svg>
+              </a>
+              <a href="https://www.facebook.com/SymposionBensberg" target="_blank" rel="noopener" aria-label="Facebook" style="color:#1877f2;">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+              </a>
+            </div>
+            <p class="footer-social-label">#symposionbensberg</p>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Symposion Bensberg — Elisavet Anastasiou — Alle Angaben ohne Gewähr</span>
+        <div class="footer-legal-links">
+          <a href="impressum.html">Impressum</a>
+          <a href="datenschutz.html">Datenschutz</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    // HAMBURGER-MENÜ
+    const toggle = document.getElementById('navToggle');
+    const nav = document.getElementById('mainNav');
+    const overlay = document.getElementById('navOverlay');
+    const navClose = document.getElementById('navClose');
+
+    function openNav() {
+      nav.classList.add('open');
+      toggle.classList.add('active');
+      overlay.classList.add('active');
+      document.body.classList.add('nav-open');
+      toggle.setAttribute('aria-expanded', 'true');
+      toggle.setAttribute('aria-label', 'Menü schließen');
+    }
+
+    function closeNav() {
+      nav.classList.remove('open');
+      toggle.classList.remove('active');
+      overlay.classList.remove('active');
+      document.body.classList.remove('nav-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Menü öffnen');
+    }
+
+    toggle.addEventListener('click', () => {
+      if (nav.classList.contains('open')) { closeNav(); } else { openNav(); }
+    });
+
+    navClose.addEventListener('click', closeNav);
+    overlay.addEventListener('click', closeNav);
+
+    nav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => { closeNav(); });
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && nav.classList.contains('open')) { closeNav(); }
+    });
+
+    // MENU TABS
+    const menus = {
+      speisekarte: {
+        file: 'assets/speisekarte.pdf',
+        title: 'Unsere Karte',
+        desc: 'Blättern Sie direkt hier durch unsere Speisekarte, oder laden Sie sie sich als PDF herunter, um sie in Ruhe zu Hause zu studieren.',
+        note: false
+      },
+      mittagskarte: {
+        file: 'assets/mittagskarte.pdf',
+        title: 'Mittagskarte',
+        desc: 'Unsere kleinere Karte für die Mittagszeit — schnell serviert, genauso genussvoll.',
+        note: true
+      }
+    };
+    const tabSpeise = document.getElementById('tabSpeise');
+    const tabMittag = document.getElementById('tabMittag');
+    const menuFrame = document.getElementById('menuFrame');
+    const menuDownload = document.getElementById('menuDownload');
+    const menuFallbackLink = document.getElementById('menuFallbackLink');
+    const menuTitle = document.getElementById('menuTitle');
+    const menuDesc = document.getElementById('menuDesc');
+    const mittagNote = document.getElementById('mittagNote');
+
+    function setMenu(key) {
+      const m = menus[key];
+      menuFrame.src = m.file;
+      menuDownload.href = m.file;
+      menuFallbackLink.href = m.file;
+      menuTitle.textContent = m.title;
+      menuDesc.textContent = m.desc;
+      mittagNote.classList.toggle('show', m.note);
+      tabSpeise.classList.toggle('active', key === 'speisekarte');
+      tabMittag.classList.toggle('active', key === 'mittagskarte');
+    }
+    tabSpeise.addEventListener('click', () => setMenu('speisekarte'));
+    tabMittag.addEventListener('click', () => setMenu('mittagskarte'));
+
+    // REVEAL ON SCROLL
+    const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -20px 0px' });
+    revealElements.forEach(el => io.observe(el));
+
+    // SMOOTH SCROLL
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href === '#' || href === '') return;
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          const headerOffset = 80;
+          const elementPosition = target.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
